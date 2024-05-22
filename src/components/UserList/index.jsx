@@ -1,43 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Box,
+  CircularProgress,
   Divider,
   List,
   ListItem,
   ListItemText,
   Typography,
 } from "@mui/material";
-
+import PersonIcon from "@mui/icons-material/Person";
 import "./styles.css";
-import models from "../../modelData/models";
-
+import * as Api from "../../lib/fetchData";
+import { Link } from "react-router-dom";
 /**
  * Define UserList, a React component of Project 4.
  */
-function UserList () {
-    const users = models.userListModel();
-    return (
-      <div>
-        <Typography variant="body1">
-          This is the user list, which takes up 3/12 of the window. You might
-          choose to use <a href="https://mui.com/components/lists/">Lists</a>{" "}
-          and <a href="https://mui.com/components/dividers/">Dividers</a> to
-          display your users like so:
-        </Typography>
+function UserList() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const getUsers = async () => {
+      const res = await Api.get("/user");
+      setUsers(res.usersList);
+      setLoading(false);
+    };
+    getUsers();
+  }, []);
+  return (
+    <div>
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
         <List component="nav">
           {users.map((item) => (
-            <>
-              <ListItem>
-                      <ListItemText primary={item.first_name}/>
+            <div key={item._id}>
+              <ListItem className="item">
+                <PersonIcon />
+                <Link to={`/users/${item._id}`} underline="none">
+                  <ListItemText
+                    primary={`${item.first_name} ${item.last_name}`}
+                    className="fullname"
+                  />
+                </Link>
               </ListItem>
               <Divider />
-            </>
+            </div>
           ))}
         </List>
-        <Typography variant="body1">
-          The model comes in from models.userListModel()
-        </Typography>
-      </div>
-    );
+      )}
+    </div>
+  );
 }
 
 export default UserList;

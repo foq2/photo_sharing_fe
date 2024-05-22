@@ -44,7 +44,7 @@ function UserDetail(props) {
         }
         setUserInfo(res.user);
         setContext(
-          "Detail of " + res.user.first_name + " " + res.user.last_name
+          "Detail of " + res.user.first_name + " " + res.user.last_name,
         );
         setLoading(false);
       } catch (e) {
@@ -67,19 +67,17 @@ function UserDetail(props) {
             {userInfo.first_name} {userInfo.last_name}
           </h2>
           <div>
-            <p>
-              <p className="user-info">
-                <LocationOnIcon />
-                <span>{userInfo.location}</span>
-              </p>
-              <p className="user-info">
-                <DescriptionIcon />
-                <span>{userInfo.description}</span>
-              </p>
-              <p className="user-info">
-                <WorkIcon />
-                <span>{userInfo.occupation}</span>
-              </p>
+            <p className="user-info">
+              <LocationOnIcon />
+              <span>{userInfo.location}</span>
+            </p>
+            <p className="user-info">
+              <DescriptionIcon />
+              <span>{userInfo.description}</span>
+            </p>
+            <p className="user-info">
+              <WorkIcon />
+              <span>{userInfo.occupation}</span>
             </p>
             <p>
               {" "}

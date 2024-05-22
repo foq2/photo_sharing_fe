@@ -43,9 +43,11 @@ export default function FrmDialog(props) {
     frmData.append("image", selectedFile);
     frmData.append("user_id", props.currentUser._id);
     frmData.append("date_time", new Date().toUTCString());
+    console.log("thu cai nay", frmData);
     const res = await Api.postFile("/photo/upload", frmData);
     if (res.status === 200) {
       forceUpdateCb();
+      console.log(res.photo);
       enqueueSnackbar("Upload success!", { variant: "success" });
       handleClose();
     } else {

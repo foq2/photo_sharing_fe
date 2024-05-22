@@ -7,7 +7,7 @@ import { useSnackbar } from "notistack";
 import * as Api from "../../lib/fetchData";
 import Post from "../Post";
 import UploadForm from "../UploadForm";
-const STATIC_PHOTO_URL = "http://localhost:8080/static/images/";
+const STATIC_PHOTO_URL = "https://h7cc8w-8080.csb.app/static/images/";
 /**
  * Define UserPhotos, a React component of Project 4.
  */
@@ -69,7 +69,7 @@ function UserPhotos(props) {
             photo.comments.push(comment);
           }
           return photo;
-        })
+        }),
       );
       setComment("");
       enqueueSnackbar("Comment success", { variant: "success" });
@@ -79,7 +79,7 @@ function UserPhotos(props) {
   };
   if (userPhotos.length === 0) {
     userPhotosJsx.push(
-      <div key={-1}>This user has not uploaded any photos.</div>
+      <div key={-1}>This user has not uploaded any photos.</div>,
     );
   } else {
     for (let photo of userPhotos) {
@@ -97,7 +97,7 @@ function UserPhotos(props) {
             setComment={setComment}
             comment={comment}
           />
-        </div>
+        </div>,
       );
     }
   }

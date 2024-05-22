@@ -1,4 +1,4 @@
-const api = "http://localhost:8080/api";
+const api = "https://h7cc8w-8080.csb.app/api";
 
 export async function get(url) {
   const res = await fetch(api + url, {

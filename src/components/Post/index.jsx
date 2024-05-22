@@ -82,7 +82,7 @@ export default function Post({
 
 const Comment = ({ comment }) => {
   return (
-    <div class="comment-container">
+    <div className="comment-container">
       <Avatar sx={{ bgcolor: red[500] }} aria-label="user" />
       <Box sx={{ bgcolor: "#eee", borderRadius: "50px", padding: "18px 32px" }}>
         <div className="comment-detail">

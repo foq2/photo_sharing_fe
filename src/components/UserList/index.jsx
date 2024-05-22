@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 function UserList() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  console.log("Use Effect in Userlist comp run!");
   useEffect(() => {
     const getUsers = async () => {
       const res = await Api.get("/user");

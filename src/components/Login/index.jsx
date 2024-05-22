@@ -68,13 +68,13 @@ export default function Login({ setCurrentUser }) {
         </Typography>
         <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
           <TextField
+            margin="normal"
             fullWidth
             id="username"
             label="Username"
             name="username"
             autoComplete="username"
             autoFocus
-            margin="normal"
             onChange={(e) =>
               setLoginFrm({
                 ...loginFrm,
@@ -83,16 +83,19 @@ export default function Login({ setCurrentUser }) {
             }
           />
           <TextField
-            fullWidth
             margin="normal"
-            id="password"
-            label="Password"
+            fullWidth
             name="password"
-            autoComplete="password"
+            label="Password"
             type="password"
-            onChange={(e) => {
-              setLoginFrm({ ...loginFrm, password: e.target.value });
-            }}
+            id="password"
+            autoComplete="current-password"
+            onChange={(e) =>
+              setLoginFrm({
+                ...loginFrm,
+                password: e.target.value,
+              })
+            }
           />
           <Button
             type="submit"

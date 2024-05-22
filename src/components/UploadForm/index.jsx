@@ -54,7 +54,7 @@ export default function FrmDialog(props) {
   };
   const handleOnFileChange = (e) => {
     if (e.target.files[0]) {
-      selectedFile(e.target.files[0]);
+      setSelectedFile(e.target.files[0]);
       console.log(e.target.files[0]);
     }
   };
@@ -100,7 +100,7 @@ export default function FrmDialog(props) {
           style={{ gap: "10px" }}
         >
           {selectedFile ? (
-            <img srt={preview} alt="preview" width="80%" height="80%" />
+            <img src={preview} alt="preview" width="80%" height="80%" />
           ) : (
             <></>
           )}
@@ -115,7 +115,7 @@ export default function FrmDialog(props) {
             <VisuallyHiddenInput
               type="file"
               accept="image/*"
-              onChange={{ handleOnFileChange }}
+              onChange={handleOnFileChange}
               name="image"
             />
           </Button>

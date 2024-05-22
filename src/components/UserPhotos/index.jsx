@@ -7,7 +7,7 @@ import { useSnackbar } from "notistack";
 import * as Api from "../../lib/fetchData";
 import Post from "../Post";
 import UploadForm from "../UploadForm";
-const STATIC_PHOTO_URL = "https://mjw7g2-8080.csb.app/static/images/";
+const STATIC_PHOTO_URL = "http://localhost:8080/static/images/";
 /**
  * Define UserPhotos, a React component of Project 4.
  */
@@ -16,11 +16,15 @@ function UserPhotos(props) {
   const navigate = useNavigate();
   const location = useLocation();
   const userInfo = location.state;
+  console.log(userInfo);
+
   const setContext = props.setContext;
   const { value, forceUpdateCb } = props;
   const [userPhotos, setUserPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [comment, setComment] = useState("");
+  console.log(userPhotos);
+
   const userPhotosJsx = [];
   const currentUser = props.currentUser;
   useEffect(() => {
@@ -48,12 +52,12 @@ function UserPhotos(props) {
     setContext(`Photo of ${userInfo.first_name + " " + userInfo.last_name}`);
     getUserPhotos();
   }, [value]);
-  const handelSendComment = async (photoId) => {
+  const handleSendComment = async (photoId) => {
     const currentDate = new Date();
     const payload = {
       comment: comment,
       photoId,
-      user_id: props.cureentUser._id,
+      user_id: props.currentUser._id,
       date_time: currentDate.toUTCString(),
     };
     const res = await Api.post(`/comment/photo/${payload.photoId}`, payload);
@@ -68,7 +72,9 @@ function UserPhotos(props) {
         })
       );
       setComment("");
-      enqueueSnackbar("Comment success", { variant: "error" });
+      enqueueSnackbar("Comment success", { variant: "success" });
+    } else {
+      enqueueSnackbar(res.message, { variant: "error" });
     }
   };
   if (userPhotos.length === 0) {
@@ -87,7 +93,7 @@ function UserPhotos(props) {
             creationDate={imageDateTime}
             comments={photo.comments}
             photo={photo}
-            handelSendComment={handelSendComment}
+            handleSendComment={handleSendComment}
             setComment={setComment}
             comment={comment}
           />

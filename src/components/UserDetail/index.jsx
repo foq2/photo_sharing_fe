@@ -27,15 +27,19 @@ function UserDetail(props) {
       navigate("/");
       return;
     }
+    console.log("Use Effect in userDetail run!");
     const getUserById = async () => {
       try {
-        const res = await Api.get(`'/user/${user.userId}`);
+        const res = await Api.get(`/user/${user.userId}`);
         if (res.status !== 200) {
           enqueueSnackbar(res.message, {
             variant: "error",
             preventDuplicate: true,
           });
-          if (res.status === 401) navigate("/");
+          if (res.status === 401) {
+            console.log("navigate to login");
+            navigate("/");
+          }
           return;
         }
         setUserInfo(res.user);
@@ -44,7 +48,9 @@ function UserDetail(props) {
         );
         setLoading(false);
       } catch (e) {
+        console.log(e);
         enqueueSnackbar("Unexpected error!", { variant: "error" });
+        setLoading(false);
       }
     };
     getUserById();

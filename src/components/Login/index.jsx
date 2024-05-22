@@ -95,7 +95,7 @@ export default function Login({ setCurrentUser }) {
             }}
           />
           <Button
-            type="button"
+            type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 2, mb: 2 }}

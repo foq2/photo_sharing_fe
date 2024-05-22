@@ -1,7 +1,7 @@
 import "./App.css";
 
 import React, { useState } from "react";
-import { Grid, Typography, Paper } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import TopBar from "./components/TopBar";
@@ -12,7 +12,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import NotFound from "./components/NotFound";
 
-const App = (props) => {
+const App = () => {
   const [value, setValue] = useState(0);
   const forceUpdateCb = () => setValue((value) => value + 1);
   const [context, setContext] = useState("");

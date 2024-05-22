@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 
 import "./styles.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import * as Api from "../../lib/fetchData";
 import Post from "../Post";

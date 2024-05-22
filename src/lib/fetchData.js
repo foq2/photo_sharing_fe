@@ -3,31 +3,31 @@ const api = "https://mjw7g2-8080.csb.app/api";
 export async function get(url) {
   const res = await fetch(api + url, {
     method: "GET",
-    headers: header(),
+    headers: createHeader(),
   });
   return await res.json();
 }
 export async function post(url, payload) {
   const res = await fetch(api + url, {
     method: "POST",
-    headers: header(),
+    headers: createHeader(),
     body: JSON.stringify(payload),
   });
   return await res.json();
 }
 export async function postFile(url, payload) {
-  const header = header();
+  const header = createHeader();
   header.delete("Content-Type");
   const res = await fetch(api + url, {
     method: "POST",
-    headers: header(),
+    headers: createHeader(),
     body: payload,
   });
   return await res.json();
 }
-function header() {
-  let header = new Headers();
-  header.set("Authorization", "Bearer " + localStorage.getItem("token"));
-  header.set("Content-Type", "application/json");
-  return header;
+function createHeader() {
+  let createHeader = new Headers();
+  createHeader.set("Authorization", "Bearer " + localStorage.getItem("token"));
+  createHeader.set("Content-Type", "application/json");
+  return createHeader;
 }

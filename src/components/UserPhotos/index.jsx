@@ -1,23 +1,121 @@
-import React from "react";
-import { Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 import "./styles.css";
-import {useParams} from "react-router-dom";
-
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useSnackbar } from "notistack";
+import * as Api from "../../lib/fetchData";
+import Post from "../Post";
+import UploadForm from "../UploadForm";
+const STATIC_PHOTO_URL = "https://mjw7g2-8080.csb.app/static/images/";
 /**
  * Define UserPhotos, a React component of Project 4.
  */
-function UserPhotos () {
-    const user = useParams();
-    return (
-      <Typography variant="body1">
-        This should be the UserPhotos view of the PhotoShare app. Since it is
-        invoked from React Router the params from the route will be in property
-        match. So this should show details of user:
-        {user.userId}. You can fetch the model for the user
-        from models.photoOfUserModel(userId):
-      </Typography>
+function UserPhotos(props) {
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userInfo = location.state;
+  const setContext = props.setContext;
+  const { value, forceUpdateCb } = props;
+  const [userPhotos, setUserPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [comment, setComment] = useState("");
+  const userPhotosJsx = [];
+  const currentUser = props.currentUser;
+  useEffect(() => {
+    if (!props.currentUser) {
+      setLoading(false);
+      enqueueSnackbar("Access Denied!", {
+        variant: "error",
+        preventDuplicate: true,
+      });
+      navigate("/");
+      return;
+    }
+    const getUserPhotos = async () => {
+      const res = await Api.get(`/photo/user/${userInfo._id}`);
+      setLoading(false);
+      if (res.status !== 200) {
+        enqueueSnackbar(res.message, {
+          variant: "error",
+          preventDuplicate: true,
+        });
+        if (res.status === 401) navigate("/");
+      }
+      setUserPhotos(res.photosList);
+    };
+    setContext(`Photo of ${userInfo.first_name + " " + userInfo.last_name}`);
+    getUserPhotos();
+  }, [value]);
+  const handelSendComment = async (photoId) => {
+    const currentDate = new Date();
+    const payload = {
+      comment: comment,
+      photoId,
+      user_id: props.cureentUser._id,
+      date_time: currentDate.toUTCString(),
+    };
+    const res = await Api.post(`/comment/photo/${payload.photoId}`, payload);
+    if (res.status === 200) {
+      setUserPhotos(
+        userPhotos.map((photo) => {
+          if (photo._id === photoId) {
+            const comment = { ...res.comment, user: props.currentUser };
+            photo.comments.push(comment);
+          }
+          return photo;
+        })
+      );
+      setComment("");
+      enqueueSnackbar("Comment success", { variant: "error" });
+    }
+  };
+  if (userPhotos.length === 0) {
+    userPhotosJsx.push(
+      <div key={-1}>This user has not uploaded any photos.</div>
     );
+  } else {
+    for (let photo of userPhotos) {
+      const imageSource = STATIC_PHOTO_URL + photo.file_name;
+      const imageDateTime = photo.date_time;
+      userPhotosJsx.push(
+        <div key={photo._id}>
+          <Post
+            imageUrl={imageSource}
+            fullname={userInfo.first_name + " " + userInfo.last_name}
+            creationDate={imageDateTime}
+            comments={photo.comments}
+            photo={photo}
+            handelSendComment={handelSendComment}
+            setComment={setComment}
+            comment={comment}
+          />
+        </div>
+      );
+    }
+  }
+  return (
+    <>
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <div className="photos-container">
+          {currentUser._id === userInfo._id ? (
+            <UploadForm
+              currentUser={currentUser}
+              forceUpdateCb={forceUpdateCb}
+            />
+          ) : (
+            <></>
+          )}
+          {userPhotosJsx}
+        </div>
+      )}
+    </>
+  );
 }
 
 export default UserPhotos;

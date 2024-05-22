@@ -20,7 +20,7 @@ function TopBar({ context, currentUser, setCurrentUser }) {
   return (
     <AppBar className="topbar-appBar" position="absolute">
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <span className="='context-container" style={{ gap: "16px" }}>
+        <span className="context-container" style={{ gap: "16px" }}>
           <Typography variant="h5" color="inherit">
             {currentUser
               ? `Helloo ${currentUser.first_name}!`

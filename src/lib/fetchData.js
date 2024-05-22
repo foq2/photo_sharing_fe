@@ -1,4 +1,4 @@
-const api = "https://mjw7g2-8080.csb.app/api";
+const api = "http://localhost:8080/api";
 
 export async function get(url) {
   const res = await fetch(api + url, {
@@ -20,14 +20,14 @@ export async function postFile(url, payload) {
   header.delete("Content-Type");
   const res = await fetch(api + url, {
     method: "POST",
-    headers: createHeader(),
+    headers: header,
     body: payload,
   });
   return await res.json();
 }
 function createHeader() {
-  let createHeader = new Headers();
-  createHeader.set("Authorization", "Bearer " + localStorage.getItem("token"));
-  createHeader.set("Content-Type", "application/json");
-  return createHeader;
+  let Header = new Headers();
+  Header.set("Authorization", "Bearer " + localStorage.getItem("token"));
+  Header.set("Content-Type", "application/json");
+  return Header;
 }

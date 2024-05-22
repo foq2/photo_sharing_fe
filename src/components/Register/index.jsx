@@ -35,7 +35,7 @@ export default function Register({ setCurrentUser }) {
       return;
     }
     if (regisFrm.password !== regisFrm.confirm_password) {
-      enqueueSnackbar("Password and confirm_password doesn't mach!", {
+      enqueueSnackbar("Password and confirm_password doesn't match!", {
         variant: "error",
       });
       return;
@@ -106,7 +106,7 @@ export default function Register({ setCurrentUser }) {
             onChange={(e) =>
               setregisFrm({
                 ...regisFrm,
-                confirmPassword: e.target.value,
+                confirm_password: e.target.value,
               })
             }
           />

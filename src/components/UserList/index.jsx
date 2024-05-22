@@ -6,7 +6,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import "./styles.css";

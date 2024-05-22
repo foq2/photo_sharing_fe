@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 /**
  * Define TopBar, a React component of Project 4.
  */
-function TopBar(context, currentUser, setCurrentUser, forceUpdateCb) {
+function TopBar({ context, currentUser, setCurrentUser }) {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const handleLogout = () => {

@@ -7,6 +7,7 @@ export async function get(url) {
   });
   return await res.json();
 }
+
 export async function post(url, payload) {
   const res = await fetch(api + url, {
     method: "POST",
@@ -15,6 +16,7 @@ export async function post(url, payload) {
   });
   return await res.json();
 }
+
 export async function postFile(url, payload) {
   const header = createHeader();
   header.delete("Content-Type");
@@ -25,6 +27,7 @@ export async function postFile(url, payload) {
   });
   return await res.json();
 }
+
 function createHeader() {
   let Header = new Headers();
   Header.set("Authorization", "Bearer " + localStorage.getItem("token"));
